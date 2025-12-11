@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERB KONJUGATOR 3000 - Commodore Style</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👾</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Scanlines Effect -->
+        <div class="scanlines"></div>
+        <div class="pixel-grid"></div>
+        
+        <header>
+            <h1>VERB KONJUGATOR 3000</h1>
+            <p class="subtitle">Deutsche Verb-Konjugation im Wrestling-Ring!</p>
+        </header>
+        
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">PUNKTE</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="streak">0</div>
+                <div class="stat-label">SERIE</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="round">1/10</div>
+                <div class="stat-label">RUNDE</div>
+            </div>
+        </div>
+        
+        <!-- Wrestling Ring -->
+        <div class="wrestling-ring">
+            <div class="ring-floor"></div>
+            
+            <!-- Ring Ropes -->
+            <div class="ring-ropes">
+                <div class="rope top"></div>
+                <div class="rope bottom"></div>
+                <div class="rope left"></div>
+                <div class="rope right"></div>
+            </div>
+            
+            <!-- Player Wrestler -->
+            <div class="wrestler player" id="player-wrestler">
+                <div class="health-text" id="player-health-text">100%</div>
+                <div class="health-bar-container">
+                    <div class="health-bar" id="player-health-bar"></div>
+                </div>
+                <div class="wrestler-image" id="player-image">👨‍🎓</div>
+            </div>
+            
+            <!-- CPU Wrestler -->
+            <div class="wrestler cpu" id="cpu-wrestler">
+                <div class="health-text" id="cpu-health-text">100%</div>
+                <div class="health-bar-container">
+                    <div class="health-bar" id="cpu-health-bar"></div>
+                </div>
+                <div class="wrestler-image" id="cpu-image">🤖</div>
+            </div>
+            
+            <!-- Ring Center -->
+            <div class="ring-center">DE</div>
+            
+            <!-- Power Meter -->
+            <div class="power-meter">
+                <div class="power-text">KONJUGATIONS-KRAFT</div>
+                <div class="power-fill" id="power-fill"></div>
+            </div>
+        </div>
+        
+        <div class="tense-selection">
+            <h3>ZEITFORM WÄHLEN:</h3>
+            <div class="tense-buttons">
+                <button class="tense-btn active" data-tense="präsens">PRÄSENS</button>
+                <button class="tense-btn" data-tense="präteritum">PRÄTERITUM</button>
+                <button class="tense-btn" data-tense="perfekt">PERFEKT</button>
+                <button class="tense-btn" data-tense="plusquamperfekt">PLUSQUAMPERFEKT</button>
+            </div>
+        </div>
+        
+        <div class="current-verb-container">
+            <p class="pronoun" id="pronoun">ICH</p>
+            <h2 class="current-verb" id="current-verb">SPIELEN</h2>
+            <p class="instructions-text">WÄHLE DIE RICHTIGE KONJUGIERTE FORM</p>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div class="choices-container">
+            <button class="choice-btn" id="choice1">SPIELE</button>
+            <button class="choice-btn" id="choice2">SPIELST</button>
+            <button class="choice-btn" id="choice3">SPIELT</button>
+            <button class="choice-btn" id="choice4">SPIELEN</button>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn start-btn" id="start-btn">SPIEL STARTEN</button>
+            <button class="control-btn hint-btn" id="hint-btn">TIPP ANZEIGEN</button>
+            <button class="control-btn reset-btn" id="reset-btn">SPIEL ZURÜCKSETZEN</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>SPIELANLEITUNG</h3>
+            <p>Jede richtige Antwort schiebt den Gegner zurück! Bei 3 richtigen Antworten in Folge erhältst du einen Spezialangriff. Halte deinen Ringer im Ring, indem du die Verben richtig konjugierst!</p>
+        </div>
+    </div>
+    
+    <div class="game-over" id="game-over">
+        <div class="game-over-content">
+            <h2 id="game-result">SPIEL BEENDET!</h2>
+            <p id="game-message">Du hast das Spiel mit folgendem Ergebnis abgeschlossen:</p>
+            <div class="score" id="final-score">0 PUNKTE</div>
+            <div class="result-details">
+                <p>RICHTIGE ANTWORTEN: <span id="correct-answers">0</span>/10</p>
+                <p>LÄNGSTE SERIE: <span id="max-streak">0</span></p>
+                <p>GESAMTPUNKTE: <span id="total-score">0</span></p>
+            </div>
+            <button class="restart-btn" id="restart-btn">NEUES SPIEL STARTEN</button>
+        </div>
+    </div>
+    
+    <!-- Audio-Elemente -->
+    <audio id="correct-sound" src="audio/correct.wav" preload="auto"></audio>
+    <audio id="error-sound" src="audio/error.wav" preload="auto"></audio>
+    <audio id="gamewon-sound" src="audio/gamewon.wav" preload="auto"></audio>
+    <audio id="gamelost-sound" src="audio/gamelost.wav" preload="auto"></audio>
+    <audio id="roundwon-sound" src="audio/roundwon.wav" preload="auto"></audio>
+    <audio id="roundlost-sound" src="audio/roundlost.wav" preload="auto"></audio>
+    
+    <!-- Wrestling Sounds -->
+    <audio id="push-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-boxing-punch-2053.mp3" preload="auto"></audio>
+    <audio id="special-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-3008.mp3" preload="auto"></audio>
+    <audio id="victory-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-trumpet-2018.mp3" preload="auto"></audio>
+    <audio id="defeat-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-game-over-1947.mp3" preload="auto"></audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>
